@@ -1,0 +1,50 @@
+/* Tune on :root or any ancestor of <body>:
+   --dither-blur-height  band height       (25vh)
+   --dither-blur-radius  max blur, bottom  (40px)
+   --dither-blur-dot     dither cell       (3px)
+   --dither-blur-contrast dither harshness (12, 1 = off) */
+
+.dither-blur {
+  --h: var(--dither-blur-height, 25vh);
+  --r: var(--dither-blur-radius, 40px);
+  --dot: var(--dither-blur-dot, 3px);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--h);
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+/* blur doubles per layer; each fades in over its sixth of the band and stays on below it.
+   -webkit- prefixes: backdrop-filter for Safari < 18, mask for Safari < 15.4 */
+.dither-blur.b0 { --m: linear-gradient(transparent 0%, #000 16.67%); --b: blur(calc(var(--r) / 32)); }
+.dither-blur.b1 { --m: linear-gradient(transparent 16.67%, #000 33.33%); --b: blur(calc(var(--r) / 16)); }
+.dither-blur.b2 { --m: linear-gradient(transparent 33.33%, #000 50%); --b: blur(calc(var(--r) / 8)); }
+.dither-blur.b3 { --m: linear-gradient(transparent 50%, #000 66.67%); --b: blur(calc(var(--r) / 4)); }
+.dither-blur.b4 { --m: linear-gradient(transparent 66.67%, #000 83.33%); --b: blur(calc(var(--r) / 2)); }
+.dither-blur.b5 { --m: linear-gradient(transparent 83.33%, #000 100%); --b: blur(var(--r)); }
+
+/* dither: nudge pixels with a 4x4 Bayer threshold pattern, then a contrast pass snaps them */
+.dither-blur.pattern,
+.dither-blur.snap {
+  --m: linear-gradient(transparent 10%, #000 100%);
+}
+.dither-blur.pattern {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAAAAACMmsGiAAAAHUlEQVR42mPgaNdYzrT/4P6DDBbbJaYz7T+4/yAAUEgJAeuFFbAAAAAASUVORK5CYII=")
+    0 0 / calc(var(--dot) * 4) calc(var(--dot) * 4);
+  image-rendering: pixelated;
+  mix-blend-mode: overlay;
+}
+.dither-blur.snap {
+  --b: contrast(var(--dither-blur-contrast, 12));
+}
+
+.dither-blur {
+  -webkit-mask: var(--m);
+  mask: var(--m);
+  -webkit-backdrop-filter: var(--b, none);
+  backdrop-filter: var(--b, none);
+}

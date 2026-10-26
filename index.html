@@ -4,65 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dither Blur POC</title>
-    <style>
-      :root {
-        --bg: #f3efe6;
-        --fg: #1b1b1b;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--fg);
-        font:
-          17px/1.6 system-ui,
-          sans-serif;
-      }
-
-      nav {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        display: flex;
-        gap: 1.5rem;
-        padding: 1rem 1.5rem;
-        background: var(--fg);
-        color: var(--bg);
-      }
-      nav b {
-        margin-right: auto;
-      }
-      nav a {
-        color: inherit;
-        text-decoration: none;
-        opacity: 0.8;
-      }
-
-      main {
-        max-width: 760px;
-        margin: 0 auto;
-        padding: 2rem 1rem 6rem;
-      }
-      .card {
-        height: 220px;
-        border-radius: 12px;
-        margin: 2.5rem 0 1rem;
-        display: grid;
-        place-items: center;
-        font: 700 4rem/1 system-ui;
-        color: #fff;
-      }
-
-      footer {
-        min-height: 420px;
-        padding: 3rem 1.5rem;
-        background: var(--fg);
-        color: var(--bg);
-      }
-    </style>
+    <link rel="stylesheet" href="demo.css" />
+    <link rel="stylesheet" href="dither-blur.css" />
   </head>
   <body>
     <nav>
@@ -82,11 +25,25 @@
       const main = document.querySelector("main");
       const LOREM =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-      for (let i = 0; i < 10; i++)
+      const CARDS = [
+        ["shift", "background:linear-gradient(120deg,#ff006e,#8338ec,#3a86ff,#06d6a0)"],
+        ["spin", ""],
+        ["", "background:repeating-linear-gradient(45deg,#1b1b1b 0 14px,#ffbe0b 14px 28px)"],
+        ["blobs", "background:linear-gradient(135deg,#3a86ff,#8338ec)"],
+        ["", "background:radial-gradient(circle at 20% 30%,#ff006e,transparent 50%),radial-gradient(circle at 80% 70%,#06d6a0,transparent 50%),radial-gradient(circle at 60% 20%,#ffbe0b,transparent 45%),#1b1b1b"],
+        ["pulse", "background:conic-gradient(from 45deg,#ef476f,#ffd166,#06d6a0,#118ab2,#ef476f)"],
+        ["", "background:repeating-radial-gradient(circle,#fb5607 0 10px,#ffbe0b 10px 20px)"],
+        ["shift", "background:linear-gradient(-45deg,#06d6a0,#118ab2,#073b4c,#ef476f)"],
+        ["blobs", "background:repeating-conic-gradient(#8338ec 0 15deg,#3a86ff 15deg 30deg)"],
+        ["spin pulse", ""],
+      ];
+      CARDS.forEach(([cls, style], i) => {
         main.insertAdjacentHTML(
           "beforeend",
-          `<div class="card" style="background:linear-gradient(135deg,hsl(${i * 36} 80% 55%),hsl(${i * 36 + 60} 80% 40%))">${i + 1}</div><p>${LOREM}</p>`,
+          `<div class="card ${cls}" style="${style}"><span>${i + 1}</span></div><p>${LOREM}</p>`,
         );
+        if (i === 4) main.insertAdjacentHTML("beforeend", `<div class="marquee"><span>${"Dither · Blur · ".repeat(16)}</span></div>`);
+      });
     </script>
     <script type="module">
       import { ditherBlur } from "./dither-blur.js";

@@ -1,0 +1,130 @@
+:root {
+  --bg: #f3efe6;
+  --fg: #1b1b1b;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 10%, #ffd6a5 0, transparent 30rem),
+    radial-gradient(circle at 85% 40%, #bde0fe 0, transparent 28rem),
+    radial-gradient(circle at 30% 75%, #caffbf 0, transparent 26rem),
+    radial-gradient(#0001 1px, transparent 1.5px) 0 0 / 18px 18px,
+    var(--bg);
+  color: var(--fg);
+  font:
+    17px/1.6 system-ui,
+    sans-serif;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--fg);
+  color: var(--bg);
+}
+nav b {
+  margin-right: auto;
+}
+nav a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem 6rem;
+}
+.card {
+  height: 220px;
+  border-radius: 12px;
+  margin: 2.5rem 0 1rem;
+  display: grid;
+  place-items: center;
+  font: 700 4rem/1 system-ui;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.shift {
+  background-size: 300% 300% !important;
+  animation: shift 6s ease-in-out infinite alternate;
+}
+.spin::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(#ff006e, #8338ec, #3a86ff, #06d6a0, #ffbe0b, #ff006e);
+  animation: spin 8s linear infinite;
+}
+.spin span {
+  position: relative;
+}
+.blobs::before,
+.blobs::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff6;
+  filter: blur(20px);
+  animation: float 5s ease-in-out infinite alternate;
+}
+.blobs::after {
+  width: 120px;
+  background: #ffbe0b99;
+  animation-duration: 3.5s;
+  animation-direction: alternate-reverse;
+}
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+.marquee {
+  white-space: nowrap;
+  font: 700 2.5rem/1.2 system-ui;
+  overflow: hidden;
+}
+.marquee span {
+  display: inline-block;
+  animation: marquee 12s linear infinite;
+}
+@keyframes shift {
+  to { background-position: 100% 100%; }
+}
+@keyframes spin {
+  to { rotate: 1turn; }
+}
+@keyframes float {
+  from { transform: translate(-120px, -60px); }
+  to { transform: translate(140px, 50px); }
+}
+@keyframes pulse {
+  50% { transform: scale(0.96); filter: hue-rotate(60deg); }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation: none !important; }
+}
+
+footer {
+  min-height: 420px;
+  padding: 3rem 1.5rem;
+  background: var(--fg);
+  color: var(--bg);
+}
