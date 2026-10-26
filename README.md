@@ -2,7 +2,9 @@
 
 An experimentation project: a progressive blur with an ordered dither pattern at the bottom of the viewport, applied to live page content.
 
-<!-- demo video: on github.com, edit this file and drag the .mp4 here, replacing this comment -->
+https://github.com/user-attachments/assets/ed07adf8-3e9a-4ba9-835e-7d9d7801bfc9
+
+
 
 ## How it works
 
